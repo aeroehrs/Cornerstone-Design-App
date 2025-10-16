@@ -28,7 +28,7 @@ const Comment = (props) => (
   </div>
 );
 
-const MAX_COUNT = 3;
+const MAX_COUNT = 7;
 
 // Comment list
 class CommentList extends React.Component {
