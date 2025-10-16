@@ -28,7 +28,7 @@ const Comment = (props) => (
   </div>
 );
 
-const MAX_COUNT = 7;
+const MAX_COUNT = 3;
 
 // Comment list
 class CommentList extends React.Component {
@@ -53,34 +53,31 @@ class CommentList extends React.Component {
   }
 
   componentDidMount() {
-  const commentsRef = db.ref("comments");
+    const commentsRef = db.ref("comments");
 
-  commentsRef.on("value", snapshot => {
-    const comments = snapshot.val() || {};
-    const keys = Object.keys(comments);
+    commentsRef.on("value", snapshot => {
+        const comments = snapshot.val() || {};
+        const keys = Object.keys(comments);
 
-    // Build an array with IDs + data
-    const commentList = keys.map(key => ({
-      id: key,
-      ...comments[key],
-    }));
+        // Convert to array
+        const commentList = keys.map(key => ({
+        id: key,
+        ...comments[key],
+        }));
 
-    // Sort oldest → newest by insertion order (Firebase keys are chronological)
-    commentList.sort((a, b) => (a.id > b.id ? 1 : -1));
+        // Sort oldest → newest
+        commentList.sort((a, b) => (a.id > b.id ? 1 : -1));
 
-    // ✅ Trim if more than MAX_COUNT
-    if (commentList.length > MAX_COUNT) {
-      const excess = commentList.length - MAX_COUNT;
-      const toRemove = commentList.slice(0, excess); // oldest ones
-      toRemove.forEach(item => db.ref("comments/" + item.id).remove());
-      // Keep only the newest MAX_COUNT for display
-      this.setState({ comments: commentList.slice(-MAX_COUNT).reverse() });
-    } else {
-      // Otherwise, just display them (newest first)
-      this.setState({ comments: commentList.reverse() });
-    }
-  });
-}
+        // Trim if too many
+        if (commentList.length > MAX_COUNT) {
+        const toRemove = commentList.slice(0, commentList.length - MAX_COUNT);
+        toRemove.forEach(item => db.ref("comments/" + item.id).remove());
+        }
+
+        // Display newest MAX_COUNT
+        this.setState({ comments: commentList.slice(-MAX_COUNT).reverse() });
+    });
+  }
 
 
 
