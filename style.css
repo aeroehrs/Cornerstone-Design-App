@@ -1,0 +1,46 @@
+body {
+  background: #e2e2e2;
+  font-family: "Times New Roman", sans-serif;
+}
+
+#app {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.commentBox {
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.commentBox small {
+  color: #888;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form input, form textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+form button {
+  padding: 10px;
+  border: none;
+  background: #007bff;
+  color: #ffffff;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #0056b3;
+}
